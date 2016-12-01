@@ -3,7 +3,7 @@ package day1
 import "testing"
 
 func TestGetDistance(t *testing.T) {
-	testPerson := Person{x: 0, y: 0, direction: 1}
+	testPerson := CreatePerson()
 	cases := []struct {
 		inx, iny, want int
 	}{
@@ -15,7 +15,7 @@ func TestGetDistance(t *testing.T) {
 		{-1000000, 1000000, 2000000},
 	}
 	for _, c := range cases {
-		testPerson.x, testPerson.y = c.inx, c.iny
+		testPerson.location.x, testPerson.location.y = c.inx, c.iny
 		got := testPerson.GetDistance()
 		if got != c.want {
 			t.Errorf("abs(%v, %v) == %v, want %v", c.inx, c.iny, got, c.want)
@@ -24,7 +24,7 @@ func TestGetDistance(t *testing.T) {
 }
 
 func TestTurn(t *testing.T) {
-	testPerson := Person{x: 0, y: 0, direction: 1}
+	testPerson := CreatePerson()
 	cases := []struct {
 		in   string
 		want int
@@ -45,7 +45,7 @@ func TestTurn(t *testing.T) {
 }
 
 func TestWalk(t *testing.T) {
-	testPerson := Person{x: 0, y: 0, direction: 1}
+	testPerson := CreatePerson()
 	cases := []struct {
 		inx         int
 		iny         int
@@ -62,18 +62,18 @@ func TestWalk(t *testing.T) {
 		{-3, -3, 2, 10, 7, -3},
 	}
 	for _, c := range cases {
-		testPerson.x = c.inx
-		testPerson.y = c.iny
+		testPerson.location.x = c.inx
+		testPerson.location.y = c.iny
 		testPerson.direction = c.indirection
 		testPerson.walk(c.indistance)
-		if testPerson.x != c.wantx || testPerson.y != c.wanty {
-			t.Errorf("walk(%v) == (%v, %v), want (%v, %v)", c.indistance, testPerson.x, testPerson.y, c.wantx, c.wanty)
+		if testPerson.location.x != c.wantx || testPerson.location.y != c.wanty {
+			t.Errorf("walk(%v) == (%v, %v), want (%v, %v)", c.indistance, testPerson.location.x, testPerson.location.y, c.wantx, c.wanty)
 		}
 	}
 }
 
 func TestMove(t *testing.T) {
-	testPerson := Person{x: 0, y: 0, direction: 1}
+	testPerson := CreatePerson()
 	cases := []struct {
 		inx         int
 		iny         int
@@ -86,18 +86,18 @@ func TestMove(t *testing.T) {
 		{0, 0, 1, "R10", 10, 0},
 	}
 	for _, c := range cases {
-		testPerson.x = c.inx
-		testPerson.y = c.iny
+		testPerson.location.x = c.inx
+		testPerson.location.y = c.iny
 		testPerson.direction = c.indirection
 		testPerson.move(c.instruction)
-		if testPerson.x != c.wantx || testPerson.y != c.wanty {
-			t.Errorf("move(%v) == (%v, %v), want (%v, %v)", c.instruction, testPerson.x, testPerson.y, c.wantx, c.wanty)
+		if testPerson.location.x != c.wantx || testPerson.location.y != c.wanty {
+			t.Errorf("move(%v) == (%v, %v), want (%v, %v)", c.instruction, testPerson.location.x, testPerson.location.y, c.wantx, c.wanty)
 		}
 	}
 }
 
 func TestFollowDirections(t *testing.T) {
-	testPerson := Person{x: 0, y: 0, direction: 1}
+	testPerson := CreatePerson()
 	cases := []struct {
 		indirs string
 		want   int
@@ -108,9 +108,9 @@ func TestFollowDirections(t *testing.T) {
 	}
 	for _, c := range cases {
 		testPerson.Init()
-		testPerson.FollowDirections(c.indirs)
+		testPerson.FollowDirections(c.indirs, false)
 		if testPerson.GetDistance() != c.want {
-			t.Errorf("followDirections(%v) == %v, want %v.  Person.x = %v Person.y = %v", c.indirs, testPerson.GetDistance(), c.want, testPerson.x, testPerson.y)
+			t.Errorf("followDirections(%v) == %v, want %v.  Person.x = %v Person.y = %v", c.indirs, testPerson.GetDistance(), c.want, testPerson.location.x, testPerson.location.y)
 		}
 	}
 }

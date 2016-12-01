@@ -8,15 +8,19 @@ import (
 	"github.com/crerwin/advent2016/util"
 )
 
+type Coord struct {
+	x int
+	y int
+}
+
 type Person struct {
-	x         int
-	y         int
+	location  Coord
 	direction int // N - W 1 - 4
 }
 
 func (p *Person) Init() {
-	p.x = 0
-	p.y = 0
+	p.location.x = 0
+	p.location.y = 0
 	p.direction = 1
 }
 
@@ -39,17 +43,17 @@ func (p *Person) turn(direction string) int {
 
 func (p *Person) walk(distance int) {
 	if p.direction == 1 {
-		p.y += distance
+		p.location.y += distance
 	} else if p.direction == 2 {
-		p.x += distance
+		p.location.x += distance
 	} else if p.direction == 3 {
-		p.y -= distance
+		p.location.y -= distance
 	} else if p.direction == 4 {
-		p.x -= distance
+		p.location.x -= distance
 	}
 }
 
-func (p *Person) move(instruction string) {
+func (p *Person) move(instruction string) bool {
 	direction := instruction[0:1]
 	distance, err := strconv.Atoi(instruction[1:len(instruction)])
 	if err != nil {
@@ -57,20 +61,25 @@ func (p *Person) move(instruction string) {
 	}
 	p.turn(direction)
 	p.walk(distance)
+	return false
 }
 
-func (p *Person) FollowDirections(directions string) {
+func (p *Person) FollowDirections(directions string, stopAtDuplicateLocation bool) {
 	dirlist := strings.Split(directions, ", ")
 	for _, dir := range dirlist {
-		p.move(dir)
+		visitedTwice := p.move(dir)
+		if visitedTwice && stopAtDuplicateLocation {
+			break
+		}
 	}
 }
 
 func (p *Person) GetDistance() int {
-	return util.Abs(p.x) + util.Abs(p.y)
+	return util.Abs(p.location.x) + util.Abs(p.location.y)
 }
 
 func CreatePerson() Person {
-	tempPerson := Person{x: 0, y: 0, direction: 1}
+	tempPerson := Person{}
+	tempPerson.Init()
 	return tempPerson
 }
