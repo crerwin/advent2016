@@ -15,6 +15,7 @@ type Coord struct {
 
 type Person struct {
 	location  Coord
+	visited   map[Coord]bool
 	direction int // N - W 1 - 4
 }
 
@@ -22,6 +23,7 @@ func (p *Person) Init() {
 	p.location.x = 0
 	p.location.y = 0
 	p.direction = 1
+	p.visited = make(map[Coord]bool)
 }
 
 func (p *Person) turn(direction string) int {
@@ -61,7 +63,12 @@ func (p *Person) move(instruction string) bool {
 	}
 	p.turn(direction)
 	p.walk(distance)
-	return false
+	if p.visited[p.location] {
+		return true
+	} else {
+		p.visited[p.location] = true
+		return false
+	}
 }
 
 func (p *Person) FollowDirections(directions string, stopAtDuplicateLocation bool) {
