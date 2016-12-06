@@ -39,7 +39,7 @@ func checkTriangle(a int, b int, c int) bool {
 	}
 }
 
-func CountPossibleTriangles(filename string) int {
+func countPossibleTriangles(filename string) int {
 	file, err := os.Open(filename)
 	if err != nil {
 		fmt.Println(err)
@@ -53,4 +53,8 @@ func CountPossibleTriangles(filename string) int {
 		}
 	}
 	return count
+}
+
+func Part1() {
+	fmt.Println(countPossibleTriangles("/tmp/day3_input.txt"))
 }
