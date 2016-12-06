@@ -33,3 +33,7 @@ func Day3(part int) string {
 	}
 	return string(data)
 }
+
+func Day5(part int) string {
+	return "abbhdwsy"
+}

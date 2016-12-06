@@ -5,7 +5,7 @@ import (
 	"fmt"
 	"os"
 
-	"github.com/crerwin/advent2016/day2"
+	"github.com/crerwin/advent2016/day5"
 )
 
 func main() {
@@ -17,7 +17,7 @@ func main() {
 		fmt.Println("Invalid arguments.  Usage: advent2016 n p - where n is the day number and p is the part number")
 	} else {
 		flag.Parse()
-		day2.Part1()
+		day5.Part2()
 	}
 
 }
