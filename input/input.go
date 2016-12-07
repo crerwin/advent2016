@@ -37,3 +37,17 @@ func Day3(part int) string {
 func Day5(part int) string {
 	return "abbhdwsy"
 }
+
+func Day6(part int) []string {
+	filename := "/tmp/day6_input.txt"
+	var input []string
+	file, err := os.Open(filename)
+	if err != nil {
+		fmt.Println(err)
+	}
+	scanner := bufio.NewScanner(file)
+	for scanner.Scan() {
+		input = append(input, scanner.Text())
+	}
+	return input
+}
